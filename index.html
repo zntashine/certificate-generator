@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Certificate Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f0f0f0;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: orange;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Download Your E-Certificate</h1>
+  <input type="text" id="nameInput" placeholder="Enter your name" />
+  <br>
+  <button onclick="generatePDF()">Download Certificate</button>
+
+  <script>
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [842, 595],
+      });
+
+      const name = document.getElementById("nameInput").value;
+      if (!name) {
+        alert("Please enter your name");
+        return;
+      }
+
+      const img = new Image();
+      img.src = "certificate-bg.png"; // Make sure this file is uploaded
+
+      img.onload = () => {
+        doc.addImage(img, "PNG", 0, 0, 842, 595);
+        doc.setFont("helvetica", "italic");
+        doc.setFontSize(32);
+        doc.setTextColor(255, 140, 0);
+        doc.text(name, 420, 330, { align: "center" });
+        doc.save(`${name}_certificate.pdf`);
+      };
+    }
+  </script>
+</body>
+</html>
