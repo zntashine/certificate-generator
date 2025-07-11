@@ -53,7 +53,7 @@
       }
 
       const img = new Image();
-      img.src = "certificate-bg.png"; // Make sure this file is uploaded
+      img.src = "certificate-bg.png";
 
       img.onload = () => {
         doc.addImage(img, "PNG", 0, 0, 842, 595);
@@ -62,6 +62,10 @@
         doc.setTextColor(255, 140, 0);
         doc.text(name, 420, 330, { align: "center" });
         doc.save(`${name}_certificate.pdf`);
+      };
+
+      img.onerror = () => {
+        alert("Failed to load background image. Please make sure 'certificate-bg.png' exists in your repo.");
       };
     }
   </script>
